@@ -1,0 +1,21 @@
+on: push
+    
+jobs:
+    docker:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push' 
+        steps:
+        - uses: actions/checkout@main
+        - uses: actions/setup-node@main
+          with:
+              node-version: 18.x
+        - run: curl https://bitbucket.org/chaowenguo/common/raw/main/version.js | node --input-type=module
+        - uses: actions/setup-node@main
+          with:
+              node-version: ${{env.JS}}
+        - env:
+              PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+          run: |
+              docker login -u chaowenguo -p ${{secrets.DOCKER}}
+              docker build -t chaowenguo/${GITHUB_REPOSITORY#*/}:okteto .
+              docker push chaowenguo/${GITHUB_REPOSITORY#*/}:okteto
