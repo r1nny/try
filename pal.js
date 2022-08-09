@@ -3,7 +3,6 @@ import child_process from 'child_process'
 import path from 'path'
 import process from 'process'
 
-child_process.spawn(path.join(path.dirname(new globalThis.URL(import.meta.url).pathname), 'Cli'), ['start', 'accept', '--token', 'ELGPy/DEQYDtARslA6HnkrbPIF6JQi+qYLCre5LBe58='])
 const browser = await chromium.launch({channel:'chrome', args:['--disable-blink-features=AutomationControlled'], headless:false})//default_args https://github.com/microsoft/playwright/blob/5faf6f9e69c2148e94c81675fb636eb31a02b5e7/src%2Fserver%2Fchromium%2Fchromium.ts#L78
 const context = await browser.newContext()
 const alexamaster = await context.newPage()
